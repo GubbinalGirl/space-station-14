@@ -4,30 +4,38 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.DirectMessage;
 
 // <summary>
-//      Request all the messages between the given pair of users
-// </summary>
-[Serializable, NetSerializable]
-public sealed class RequestDirectMessagesForPairMessage : EntityEventArgs
-{
-    public RequestDirectMessagesForPairMessage() { }
-}
-
-// <summary>
-//      Request all the known contacts for a given user. Currently just returns the entire crew.
-// </summary>
-[Serializable, NetSerializable]
-public sealed class RequestContactsForUserMessage : EntityEventArgs
-{
-    public RequestContactsForUserMessage() { }
-}
-
-// <summary>
 //      Sends a message from the user sender to the user recipient
 // </summary>
 [Serializable, NetSerializable]
 public sealed class SendDirectMessageToUserMessage : EntityEventArgs
 {
-    public SendDirectMessageToUserMessage() { }
+    public DirectMessageEntry? Message { get; }
+    public NetEntity Sender { get; }
+    public NetEntity Receiver { get; }
+    public SendDirectMessageToUserMessage(DirectMessageEntry message, NetEntity sender, NetEntity receiver)
+    {
+        Message = message;
+        Sender = sender;
+        Receiver = receiver;
+    }
+}
+
+// <summary>
+//      Registers a user with the DM server when the app is first opened
+// </summary>
+[Serializable, NetSerializable]
+public sealed class RegisterDMUserMessage : EntityEventArgs
+{
+    public NetEntity UserUID { get; }
+
+    /// <summary>
+    ///     
+    /// </summary>
+    /// <param name="userUID">The uid of the DM user that is registering</param>
+    public RegisterDMUserMessage(NetEntity userUID)
+    {
+        UserUID = userUID;
+    }
 }
 
 [Serializable, NetSerializable]

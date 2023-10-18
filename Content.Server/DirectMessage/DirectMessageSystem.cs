@@ -10,7 +10,7 @@ namespace Content.Server.DirectMessage;
 public sealed class DirectMessageSystem : EntitySystem
 {
     //Each registered DM user has an associated List of messages
-    private readonly Dictionary<EntityUid, List<DirectMessageEntry>> _messages_per_user;
+    private readonly Dictionary<EntityUid, List<DirectMessageEntry>> _messages_per_user = new();
 
     public override void Initialize()
     {
