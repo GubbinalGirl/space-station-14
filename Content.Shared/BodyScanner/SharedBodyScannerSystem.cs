@@ -1,4 +1,5 @@
 using Content.Shared.Inventory;
+using Content.Shared.Weapons.Ranged.Components;
 using Robust.Shared.Physics.Events;
 
 namespace Content.Shared.BodyScanner;
@@ -27,14 +28,36 @@ public abstract class SharedBodyScannerSystem : EntitySystem
         foreach (var i in otherInventory)
         {
             //Check each item to determine if its the target type
+            //For now just check if an entity has the gun component
+            if (!TryComp<GunComponent>(i, out var gunComp))
+                continue;
 
+            //If the item is a gun then alert somehow
         }
 
-        //For now just check if an entity has the gun component
+
     }
 
     private void OnEndCollide(EntityUid uid, BodyScannerComponent component, ref EndCollideEvent args)
     {
 
     }
+}
+
+public abstract class ContrabandDetectedEvent : EntityEventArgs
+{
+    /// <summary>
+    /// The BodyScanner or other detector that detected the contraband.
+    /// </summary>
+    public readonly EntityUid Detector;
+
+    /// <summary>
+    /// The item that was detected as contraband.
+    /// </summary>
+    public readonly EntityUid DetectedItem;
+
+    /// <summary>
+    /// The entity that holds the detected object.
+    /// </summary>
+    public readonly EntityUid DetectedHolder;
 }
