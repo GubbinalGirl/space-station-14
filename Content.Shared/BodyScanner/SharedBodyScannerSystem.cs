@@ -16,7 +16,7 @@ public abstract class SharedBodyScannerSystem : EntitySystem
         SubscribeLocalEvent<BodyScannerComponent, EndCollideEvent>(OnEndCollide);
     }
 
-    private void OnCollide(EntityUid uid, BodyScannerComponent component, ref StartCollideEvent args)
+    private void OnCollide(Entity<BodyScannerComponent> bodyScanner, ref StartCollideEvent args)
     {
         //Check if the other entity has a bodycomponent or inventorycomponent
         var other = args.OtherEntity;
@@ -38,7 +38,7 @@ public abstract class SharedBodyScannerSystem : EntitySystem
 
     }
 
-    private void OnEndCollide(EntityUid uid, BodyScannerComponent component, ref EndCollideEvent args)
+    private void OnEndCollideEntity<BodyScannerComponent> bodyScanner, ref EndCollideEvent args)
     {
 
     }
