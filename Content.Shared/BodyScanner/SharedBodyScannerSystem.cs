@@ -31,14 +31,12 @@ public abstract class SharedBodyScannerSystem : EntitySystem
             //For now just check if an entity has the gun component
             if (!TryComp<GunComponent>(i, out var gunComp))
                 continue;
-
+            Log.Info("Gun detected.");
             //If the item is a gun then alert somehow
         }
-
-
     }
 
-    private void OnEndCollideEntity<BodyScannerComponent> bodyScanner, ref EndCollideEvent args)
+    private void OnEndCollide(Entity<BodyScannerComponent> bodyScanner, ref EndCollideEvent args)
     {
 
     }
