@@ -9,3 +9,9 @@ public sealed partial class BodyScannerComponent : Component
     [DataField("targetItem")]
     public string? TargetItem;
 }
+
+public enum BodyScannerVisuals : byte
+{
+    Base,
+    Alerted
+}
