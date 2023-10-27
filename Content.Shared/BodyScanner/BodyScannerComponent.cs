@@ -8,6 +8,10 @@ public sealed partial class BodyScannerComponent : Component
     //How do I reference the type of item that is being looked for?
     [DataField("targetItem")]
     public string? TargetItem;
+
+
+    [DataField("isAlerted")]
+    public bool IsAlerted = false;
 }
 
 public enum BodyScannerVisuals : byte
