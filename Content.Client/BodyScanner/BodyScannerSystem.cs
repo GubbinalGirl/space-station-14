@@ -11,10 +11,10 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
     public override void Initialize()
     {
         base.Initialize();
-        SubscribeLocalEvent<BodyScannerComponent, AppearanceChangeEvent>(OnBodyScannerVisualsChange);
+        SubscribeLocalEvent<BodyScannerVisualsComponent, AppearanceChangeEvent>(OnBodyScannerVisualsChange);
     }
 
-    private void OnBodyScannerVisualsChange(Entity<BodyScannerComponent> entity, ref AppearanceChangeEvent args)
+    private void OnBodyScannerVisualsChange(Entity<BodyScannerVisualsComponent> entity, ref AppearanceChangeEvent args)
     {
         if (args.Sprite == null)
             return;
