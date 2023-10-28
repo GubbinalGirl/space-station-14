@@ -35,6 +35,7 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
                 continue;
             Log.Info("Gun detected.");
             //If the item is a gun then alert somehow
+            UpdateAppearance(bodyScanner);
         }
     }
 
@@ -43,4 +44,9 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
 
     }
 
+    //AppearanceComponent is how the server communicates visualizer data to the client
+    private void UpdateAppearance(Entity<BodyScannerComponent> bodyScanner)
+    {
+
+    }
 }
