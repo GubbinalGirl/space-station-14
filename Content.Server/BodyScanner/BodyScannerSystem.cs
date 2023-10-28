@@ -1,31 +1,46 @@
+using Robust.Shared.Physics.Events;
 using Content.Shared.BodyScanner;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Content.Shared.Inventory;
+using Content.Shared.Weapons.Ranged.Components;
 
 namespace Content.Server.BodyScanner;
 
-public sealed class BodyScannerSystem : EntitySystem
+public sealed class BodyScannerSystem : SharedBodyScannerSystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
 
     public override void Initialize()
     {
         base.Initialize();
+
+        SubscribeLocalEvent<BodyScannerComponent, StartCollideEvent>(OnCollide);
+        SubscribeLocalEvent<BodyScannerComponent, EndCollideEvent>(OnEndCollide);
     }
-    private void UpdateAppearance(Entity<BodyScannerComponent>? entity, AppearanceComponent? appearance = null,
-        StorageFillVisualizerComponent? component = null)
+
+    private void OnCollide(Entity<BodyScannerComponent> bodyScanner, ref StartCollideEvent args)
     {
-        if (!Resolve(uid, ref storage, ref appearance, ref component, false))
-            return;
+        //Check if the other entity has a bodycomponent or inventorycomponent
+        var other = args.OtherEntity;
 
-        if (component.MaxFillLevels < 1)
-            return;
+        //Try and get the other's Inventory
+        var otherInventory = _inventory.GetHandOrInventoryEntities(other);
 
-        var level = ContentHelpers.RoundToEqualLevels(storage.StorageUsed, storage.StorageCapacityMax, component.MaxFillLevels);
-        _appearance.SetData(uid, StorageFillVisuals.FillLevel, level, appearance);
+        //If yes, then iterate through it's total inventory
+        foreach (var i in otherInventory)
+        {
+            //Check each item to determine if its the target type
+            //For now just check if an entity has the gun component
+            if (!TryComp<GunComponent>(i, out var gunComp))
+                continue;
+            Log.Info("Gun detected.");
+            //If the item is a gun then alert somehow
+        }
+    }
+
+    private void OnEndCollide(Entity<BodyScannerComponent> bodyScanner, ref EndCollideEvent args)
+    {
+
     }
 
 }
