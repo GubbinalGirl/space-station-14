@@ -49,6 +49,7 @@ public sealed class BodyScannerSystem : EntitySystem
 
     private void OnEndCollide(Entity<BodyScannerComponent> bodyScanner, ref EndCollideEvent args)
     {
+        Log.Info("End Collide.");
         bodyScanner.Comp.IsAlerted = false;
     }
 
@@ -60,7 +61,10 @@ public sealed class BodyScannerSystem : EntitySystem
 
         //Do I need to try and get the AppearanceComponent?
         if (!Resolve(bodyScanner.Owner, ref appearance))
+        {
+            Log.Info("Couldn't resolve");
             return;
+        }
 
         if (bodyScanner.Comp.IsAlerted)
             _appearance.SetData(bodyScanner.Owner, BodyScannerVisuals.Alerted, true, appearance);

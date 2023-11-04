@@ -22,17 +22,7 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
 
         if (args.Sprite == null)
             return;
-        Log.Info("Sprite ain't null.");
 
-        //Bail if there is no relevant key
-        if (!args.AppearanceData.ContainsKey(BodyScannerVisuals.Alerted))
-            return;
-        Log.Info("Relevant key");
-
-        if (!args.AppearanceData.TryGetValue(BodyScannerVisuals.Alerted, out var alerted))
-            return;
-        Log.Info("Got key value");
-
-        args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, (bool)alerted);
+        args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, entity.Comp.IsAlerted);
     }
 }

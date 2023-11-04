@@ -28,4 +28,4 @@
         - FullTileMask
         layer:
         - WallLayer
-        hard: true
+        hard: false
