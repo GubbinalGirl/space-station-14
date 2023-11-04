@@ -1,10 +1,9 @@
-using Content.Client.PowerCell;
 using Content.Shared.BodyScanner;
 using Robust.Client.GameObjects;
 
 namespace Content.Client.BodyScanner;
 
-public sealed class BodyScannerSystem : SharedBodyScannerSystem
+public sealed class BodyScannerSystem : EntitySystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
@@ -22,6 +21,8 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
 
         if (args.Sprite == null)
             return;
+
+        Log.Info(String.Format("isAlerted: {0}.", entity.Comp.IsAlerted));
 
         args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, entity.Comp.IsAlerted);
     }

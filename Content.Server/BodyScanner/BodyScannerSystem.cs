@@ -41,8 +41,9 @@ public sealed class BodyScannerSystem : EntitySystem
             if (!TryComp<GunComponent>(i, out var gunComp))
                 continue;
             Log.Info("Gun detected.");
-            bodyScanner.Comp.IsAlerted = true;
             //If the item is a gun then alert somehow
+            bodyScanner.Comp.IsAlerted = true;
+            Dirty(bodyScanner);
             UpdateAppearance(bodyScanner);
         }
     }
@@ -51,6 +52,8 @@ public sealed class BodyScannerSystem : EntitySystem
     {
         Log.Info("End Collide.");
         bodyScanner.Comp.IsAlerted = false;
+        Dirty(bodyScanner);
+        UpdateAppearance(bodyScanner);
     }
 
     //AppearanceComponent is how the server communicates visualizer data to the client
@@ -65,6 +68,8 @@ public sealed class BodyScannerSystem : EntitySystem
             Log.Info("Couldn't resolve");
             return;
         }
+
+        Log.Info(String.Format("isAlerted: {0}.", bodyScanner.Comp.IsAlerted));
 
         if (bodyScanner.Comp.IsAlerted)
             _appearance.SetData(bodyScanner.Owner, BodyScannerVisuals.Alerted, true, appearance);
