@@ -1,13 +1,30 @@
 - type: entity
   id: ContrabandScanner
   name: contraband-scanner
-  parent: BaseItem
+  parent: BaseStructure
+  placement:
+    mode: SnapgridCenter
   components:
+  - type: Transform
+    anchored: True
+  - type: Physics
+    bodyType: Static
   - type: Sprite
     sprite: Objects/Misc/body_scanner.rsi
     layers:
-    - state: base
-      map: ["enum.BodyScannerVisuals.Base"]
     - state: alerted
       map: ["enum.BodyScannerVisuals.Alerted"]
+    - state: base
+      map: ["enum.BodyScannerVisuals.Base"]
   - type: BodyScanner
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.45,-0.45,0.45,0.45"
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+        hard: true

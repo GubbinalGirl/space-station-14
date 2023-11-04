@@ -2,10 +2,11 @@ using Robust.Shared.Physics.Events;
 using Content.Shared.BodyScanner;
 using Content.Shared.Inventory;
 using Content.Shared.Weapons.Ranged.Components;
+using Content.Shared.Storage.Components;
 
 namespace Content.Server.BodyScanner;
 
-public sealed class BodyScannerSystem : SharedBodyScannerSystem
+public sealed class BodyScannerSystem : EntitySystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
@@ -16,6 +17,11 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
 
         SubscribeLocalEvent<BodyScannerComponent, StartCollideEvent>(OnCollide);
         SubscribeLocalEvent<BodyScannerComponent, EndCollideEvent>(OnEndCollide);
+    }
+
+    private void OnInit(Entity<BodyScannerComponent> bodyScanner, ComponentInit args)
+    {
+        UpdateAppearance(bodyScanner);
     }
 
     private void OnCollide(Entity<BodyScannerComponent> bodyScanner, ref StartCollideEvent args)
@@ -35,6 +41,7 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
             if (!TryComp<GunComponent>(i, out var gunComp))
                 continue;
             Log.Info("Gun detected.");
+            bodyScanner.Comp.IsAlerted = true;
             //If the item is a gun then alert somehow
             UpdateAppearance(bodyScanner);
         }
@@ -42,7 +49,7 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
 
     private void OnEndCollide(Entity<BodyScannerComponent> bodyScanner, ref EndCollideEvent args)
     {
-
+        bodyScanner.Comp.IsAlerted = false;
     }
 
     //AppearanceComponent is how the server communicates visualizer data to the client
@@ -58,6 +65,6 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
         if (bodyScanner.Comp.IsAlerted)
             _appearance.SetData(bodyScanner.Owner, BodyScannerVisuals.Alerted, true, appearance);
         else
-            _appearance.SetData(bodyScanner.Owner, BodyScannerVisuals.Base, true, appearance);
+            _appearance.SetData(bodyScanner.Owner, BodyScannerVisuals.Alerted, false, appearance);
     }
 }

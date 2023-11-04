@@ -16,11 +16,23 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
 
     private void OnBodyScannerVisualsChange(Entity<BodyScannerComponent> entity, ref AppearanceChangeEvent args)
     {
+        Log.Info("Changing appearance.");
+
         var appearance = args.Component;
 
         if (args.Sprite == null)
             return;
+        Log.Info("Sprite ain't null.");
 
-        args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, entity.Comp.IsAlerted);
+        //Bail if there is no relevant key
+        if (!args.AppearanceData.ContainsKey(BodyScannerVisuals.Alerted))
+            return;
+        Log.Info("Relevant key");
+
+        if (!args.AppearanceData.TryGetValue(BodyScannerVisuals.Alerted, out var alerted))
+            return;
+        Log.Info("Got key value");
+
+        args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, (bool)alerted);
     }
 }
