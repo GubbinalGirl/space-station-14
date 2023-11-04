@@ -1,5 +1,6 @@
 - type: entity
-  id: BaseWeaponBattery
+  id: ContrabandScanner
+  name: contraband-scanner
   parent: BaseItem
   components:
   - type: Sprite
