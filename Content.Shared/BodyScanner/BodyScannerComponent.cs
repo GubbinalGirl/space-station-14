@@ -1,5 +1,5 @@
 using Robust.Shared.GameStates;
-
+using Robust.Shared.Serialization;
 namespace Content.Shared.BodyScanner;
 
 [RegisterComponent, NetworkedComponent]
@@ -13,6 +13,7 @@ public sealed partial class BodyScannerComponent : Component
     public bool IsAlerted = false;
 }
 
+[Serializable, NetSerializable]
 public enum BodyScannerVisuals : byte
 {
     Base,

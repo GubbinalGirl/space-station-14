@@ -16,6 +16,7 @@
       map: ["enum.BodyScannerVisuals.Alerted"]
     - state: base
       map: ["enum.BodyScannerVisuals.Base"]
+  - type: Appearance
   - type: BodyScanner
   - type: Fixtures
     fixtures:
