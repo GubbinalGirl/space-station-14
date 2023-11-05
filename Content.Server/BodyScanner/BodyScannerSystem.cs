@@ -6,7 +6,7 @@ using Content.Shared.Storage.Components;
 
 namespace Content.Server.BodyScanner;
 
-public sealed class BodyScannerSystem : EntitySystem
+public sealed class BodyScannerSystem : SharedBodyScannerSystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly InventorySystem _inventory = default!;
@@ -43,7 +43,7 @@ public sealed class BodyScannerSystem : EntitySystem
             Log.Info("Gun detected.");
             //If the item is a gun then alert somehow
             bodyScanner.Comp.IsAlerted = true;
-            Dirty(bodyScanner);
+            Dirty(bodyScanner.Owner, bodyScanner.Comp);
             UpdateAppearance(bodyScanner);
         }
     }
@@ -52,7 +52,7 @@ public sealed class BodyScannerSystem : EntitySystem
     {
         Log.Info("End Collide.");
         bodyScanner.Comp.IsAlerted = false;
-        Dirty(bodyScanner);
+        Dirty(bodyScanner.Owner, bodyScanner.Comp);
         UpdateAppearance(bodyScanner);
     }
 

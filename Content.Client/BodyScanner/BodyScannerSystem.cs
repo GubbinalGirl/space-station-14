@@ -3,7 +3,7 @@ using Robust.Client.GameObjects;
 
 namespace Content.Client.BodyScanner;
 
-public sealed class BodyScannerSystem : EntitySystem
+public sealed class BodyScannerSystem : SharedBodyScannerSystem
 {
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
