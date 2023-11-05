@@ -40,7 +40,7 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
             //For now just check if an entity has the gun component
             if (!TryComp<GunComponent>(i, out var gunComp))
                 continue;
-            Log.Info("Gun detected.");
+
             //If the item is a gun then alert somehow
             bodyScanner.Comp.IsAlerted = true;
             Dirty(bodyScanner.Owner, bodyScanner.Comp);
@@ -59,17 +59,11 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
     //AppearanceComponent is how the server communicates visualizer data to the client
     private void UpdateAppearance(Entity<BodyScannerComponent> bodyScanner)
     {
-        Log.Info("Updating Bodyscanner Appearance.");
         AppearanceComponent? appearance = null;
 
         //Do I need to try and get the AppearanceComponent?
         if (!Resolve(bodyScanner.Owner, ref appearance))
-        {
-            Log.Info("Couldn't resolve");
             return;
-        }
-
-        Log.Info(String.Format("isAlerted: {0}.", bodyScanner.Comp.IsAlerted));
 
         if (bodyScanner.Comp.IsAlerted)
             _appearance.SetData(bodyScanner.Owner, BodyScannerVisuals.Alerted, true, appearance);

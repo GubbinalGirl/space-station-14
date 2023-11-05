@@ -15,15 +15,23 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
 
     private void OnBodyScannerVisualsChange(Entity<BodyScannerComponent> entity, ref AppearanceChangeEvent args)
     {
-        Log.Info("Changing appearance.");
-
         var appearance = args.Component;
 
         if (args.Sprite == null)
             return;
 
-        Log.Info(String.Format("isAlerted: {0}.", entity.Comp.IsAlerted));
+        if (entity.Comp.IsAlerted)
+        {
+            args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, true);
+            args.Sprite.LayerSetVisible(BodyScannerVisuals.Base, false);
+            args.Sprite.LayerSetState(BodyScannerVisuals.Alerted, "alerted");
 
-        args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, entity.Comp.IsAlerted);
+        }
+        else
+        {
+            args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, false);
+            args.Sprite.LayerSetVisible(BodyScannerVisuals.Base, true);
+            args.Sprite.LayerSetState(BodyScannerVisuals.Alerted, "base");
+        }
     }
 }
