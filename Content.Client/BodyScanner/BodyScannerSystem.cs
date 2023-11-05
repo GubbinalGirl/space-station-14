@@ -20,18 +20,7 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
         if (args.Sprite == null)
             return;
 
-        if (entity.Comp.IsAlerted)
-        {
-            args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, true);
-            args.Sprite.LayerSetVisible(BodyScannerVisuals.Base, false);
-            args.Sprite.LayerSetState(BodyScannerVisuals.Alerted, "alerted");
-
-        }
-        else
-        {
-            args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, false);
-            args.Sprite.LayerSetVisible(BodyScannerVisuals.Base, true);
-            args.Sprite.LayerSetState(BodyScannerVisuals.Alerted, "base");
-        }
+        args.Sprite.LayerSetVisible(BodyScannerVisuals.Alerted, entity.Comp.IsAlerted);
+        args.Sprite.LayerSetVisible(BodyScannerVisuals.Base, !entity.Comp.IsAlerted);
     }
 }

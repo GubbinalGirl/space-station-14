@@ -26,7 +26,6 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
 
     private void OnCollide(Entity<BodyScannerComponent> bodyScanner, ref StartCollideEvent args)
     {
-        Log.Info("Bodyscanner OnCollide.");
         //Check if the other entity has a bodycomponent or inventorycomponent
         var other = args.OtherEntity;
 
@@ -50,7 +49,6 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
 
     private void OnEndCollide(Entity<BodyScannerComponent> bodyScanner, ref EndCollideEvent args)
     {
-        Log.Info("End Collide.");
         bodyScanner.Comp.IsAlerted = false;
         Dirty(bodyScanner.Owner, bodyScanner.Comp);
         UpdateAppearance(bodyScanner);
@@ -65,9 +63,6 @@ public sealed class BodyScannerSystem : SharedBodyScannerSystem
         if (!Resolve(bodyScanner.Owner, ref appearance))
             return;
 
-        if (bodyScanner.Comp.IsAlerted)
-            _appearance.SetData(bodyScanner.Owner, BodyScannerVisuals.Alerted, true, appearance);
-        else
-            _appearance.SetData(bodyScanner.Owner, BodyScannerVisuals.Alerted, false, appearance);
+        _appearance.SetData(bodyScanner.Owner, BodyScannerVisuals.Alerted, bodyScanner.Comp.IsAlerted, appearance);
     }
 }
